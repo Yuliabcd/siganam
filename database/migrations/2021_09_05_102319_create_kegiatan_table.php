@@ -20,6 +20,7 @@ class CreateKegiatanTable extends Migration
             $table->string('detail_kegiatan');
             $table->string('dokumentasi');
             $table->timestamp('waktu_kegiatan');
+
             $table->timestamps();
         });
     }
