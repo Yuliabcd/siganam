@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('title')
-  Pengguna
+  Pengurus
 @endsection
 
 @section('page-header')
   <div class="row mb-2">
     <div class="col-sm-6">
-      <h1 class="m-0">Pengguna</h1>
+      <h1 class="m-0">Pengurus</h1>
     </div><!-- /.col -->
     <div class="col-sm-6">
     </div><!-- /.col -->
@@ -22,9 +22,9 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Kelola Pengguna</h3>
+            <h3 class="card-title">Kelola Pengurus</h3>
             <div class="card-tools">
-              <a href="{{ route('users.create') }}" class="btn btn-primary btn-block btn-sm"><i
+              <a href="{{ route('penguruses.create') }}" class="btn btn-primary btn-block btn-sm"><i
                   class="fa fa-plus"></i>
                 Tambah</a>
             </div>
@@ -36,33 +36,33 @@
                   <tr>
                     <th>#</th>
                     <th>Nama</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>No. Hp/WhatsApp</th>
-                    <th>Role</th>
-                    <th class="text-center">Aksi</th>
+                    <th>Nama Panggilan</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Posisi</th>
+                    <th>Foto</th>
+                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($users as $i => $user)
+                  @foreach ($pengurus as $i => $item)
                     <tr>
-                      <td>{{ ($users->currentpage() - 1) * $users->perpage() + $i + 1 }}</td>
-                      <td>{{ $user->name }}</td>
-                      <td>{{ $user->username }}</td>
-                      <td>{{ $user->email }}</td>
-                      <td>{{ $user->no_hp }}</td>
-                      <td>{{ $user->role }}</td>
+                      <td>{{ ($pengurus->currentpage() - 1) * $pengurus->perpage() + $i + 1 }}</td>
+                      <td>{{ $item->nama }}</td>
+                      <td>{{ $item->nama_panggilan }}</td>
+                      <td>{{ $item->jenis_kelamin_text }}</td>
+                      <td>{{ $item->posisi->nama }}</td>
+                      <td> <img src="{{ $item->foto_url }}" class="img-thumbnail" alt="{{ $item->nama }}"></td>
                       <td class="text-center py-0 align-middle">
                         <div class="btn-group btn-group-sm">
-                          <a href="{{ route('users.show', $user->id) }}" class="btn btn-primary" data-toggle="tooltip"
-                            data-placement="left" title="Lihat">
+                          <a href="{{ route('penguruses.show', $item->id) }}" class="btn btn-primary"
+                            data-toggle="tooltip" data-placement="left" title="Lihat">
                             <i class="fas fa-eye"></i>
                           </a>
-                          <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info" data-toggle="tooltip"
-                            data-placement="left" title="Edit">
+                          <a href="{{ route('penguruses.edit', $item->id) }}" class="btn btn-info"
+                            data-toggle="tooltip" data-placement="left" title="Edit">
                             <i class="fas fa-pencil-alt"></i>
                           </a>
-                          <button type="button" data-href="{{ route('users.destroy', $user->id) }}"
+                          <button type="button" data-href="{{ route('penguruses.destroy', $item->id) }}"
                             class="btn btn-danger btn__delete" data-toggle="tooltip" data-placement="left" title="Hapus">
                             <i class="fas fa-trash"></i>
                           </button>
@@ -74,7 +74,7 @@
               </table>
             </div>
             <div>
-              {{ $users->links() }}
+              {{ $pengurus->links() }}
             </div>
           </div>
         </div>
@@ -92,7 +92,7 @@
         $('#form-delete').prop('action', $(this).data('href'));
         Swal.fire({
           title: 'Apa kamu yakin?',
-          text: 'Pengguna yang sudah dihapus tidak bisa dikembalikan!',
+          text: 'Pengurus dan Laporan terkait yang sudah dihapus tidak bisa dikembalikan!',
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Hapus',

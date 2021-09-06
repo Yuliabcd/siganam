@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Pengurus extends Model
 {
@@ -11,7 +12,7 @@ class Pengurus extends Model
 
     protected $table = 'pengurus';
 
-    protected $fillable = ['nama', 'nama_panggilan', 'jenis_kelamin', 'alamat', 'no_hp', 'email', 'foto'];
+    protected $fillable = ['posisi_id', 'nama', 'nama_panggilan', 'jenis_kelamin', 'alamat', 'no_hp', 'email', 'foto'];
 
     public function posisi()
     {
@@ -21,5 +22,22 @@ class Pengurus extends Model
     public function laporanPengurus()
     {
         return $this->hasMany(LaporanPengurus::class);
+    }
+
+    public function getJenisKelaminTextAttribute()
+    {
+        if ($this->attributes['jenis_kelamin'] === 'l') {
+            return 'Laki-Laki';
+        }
+        return 'Perempuan';
+    }
+
+    public function getFotoUrlAttribute()
+    {
+        if ($this->attributes['foto'] === null) {
+            return  'https://dukcapil.klatenkab.go.id/assets/img/user.png';
+        }
+
+        return  Storage::url($this->attributes['foto']);
     }
 }

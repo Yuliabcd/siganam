@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('title')
-  Edit Pengguna
+  Edit Pengurus
 @endsection
 
 @section('page-header')
   <div class="row mb-2">
     <div class="col-sm-6">
-      <h1 class="m-0">Edit Pengguna</h1>
+      <h1 class="m-0">Edit Pengurus</h1>
     </div><!-- /.col -->
     <div class="col-sm-6">
       <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Pengguna</a></li>
-        <li class="breadcrumb-item active">Edit Pengguna</li>
+        <li class="breadcrumb-item"><a href="{{ route('penguruses.index') }}">Pengurus</a></li>
+        <li class="breadcrumb-item active">Edit Pengurus</li>
       </ol>
     </div><!-- /.col -->
   </div><!-- /.row -->
@@ -26,45 +26,49 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Edit Pengguna</h3>
+            <h3 class="card-title">Edit Pengurus</h3>
           </div>
-          <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('penguruses.update', $pengurus->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="card-body">
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="name">Nama <code>*</code></label>
-                  <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}">
+                  <label for="nama">Nama <code>*</code></label>
+                  <input type="text" class="form-control" id="nama" name="nama" value="{{ $pengurus->nama }}">
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="username">Username <code>*</code></label>
-                  <input type="text" class="form-control" id="username" name="username" value="{{ $user->username }}">
+                  <label for="nama_panggilan">Nama Panggilan <code>*</code></label>
+                  <input type="text" class="form-control" id="nama_panggilan" name="nama_panggilan"
+                    value="{{ $pengurus->nama_panggilan }}">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="role">Role <code>*</code></label>
-                  <select name="role_id" id="role" class="form-control">
-                    <option selected disabled hidden>--Pilih Role--</option>
-                    @foreach ($roles as $id => $role)
-                      <option {{ $user->hasAnyRole($id) ? 'selected' : '' }} value="{{ $id }}">
-                        {{ $role }}
-                      </option>
+                  <label for="posisi_id">Posisi <code>*</code></label>
+                  <select name="posisi_id" id="posisi_id" class="form-control">
+                    <option selected disabled hidden>--Pilih Posisi--</option>
+                    @foreach ($posisi as $id => $nama)
+                      <option {{ $pengurus->posisi_id === $id ? 'selected' : '' }} value="{{ $id }}">
+                        {{ $nama }}</option>
                     @endforeach
                   </select>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="email">Email <code>*</code></label>
-                  <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
+                  <label for="jenis_kelamin">Jenis Kelamin <code>*</code></label>
+                  <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+                    <option selected hidden disabled>--Pilih Jenis Kelamin--</option>
+                    <option {{ $pengurus->jenis_kelamin === 'l' ? 'selected' : '' }} value="l">Laki-Laki</option>
+                    <option {{ $pengurus->jenis_kelamin === 'p' ? 'selected' : '' }} value="p">Perempuan</option>
+                  </select>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="password">Password <code>*</code></label>
-                  <input type="password" class="form-control" id="password" name="password">
+                  <label for="alamat">Alamat</label>
+                  <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $pengurus->alamat }}">
                 </div>
                 <div class="form-group col-md-6">
                   <label for="no_hp">No. Hp/WhatsApp</label>
@@ -73,7 +77,7 @@
                       <span class="input-group-text">+62</span>
                     </div>
                     <input type="tel" class="form-control" id="no_hp" name="no_hp" maxlength="15"
-                      value="{{ $user->no_hp }}">
+                      value="{{ $pengurus->no_hp }}">
                   </div>
                 </div>
               </div>
@@ -86,12 +90,12 @@
                     <label class="custom-file-label" for="foto">Choose file</label>
                   </div>
                   <div class="img__preview p-1 border mt-3">
-                    <img src="{{ $user->foto_url }}" alt="{{ $user->name }}" class="img-fluid w-100">
+                    <img src="{{ $pengurus->foto_url }}" alt="{{ $pengurus->nama }}" class="img-fluid w-100">
                   </div>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="alamat">Alamat</label>
-                  <input type="text" name="alamat" id="alamat" class="form-control" value="{{ $user->alamat }}">
+                  <label for="email">Email</label>
+                  <input type="email" name="email" id="email" class="form-control" value="{{ $pengurus->email }}">
                 </div>
               </div>
 

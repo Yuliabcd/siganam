@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('title')
-  Detail Pengguna
+  Detail Pengurus
 @endsection
 
 @section('page-header')
   <div class="row mb-2">
     <div class="col-sm-6">
-      <h1 class="m-0">Detail Pengguna</h1>
+      <h1 class="m-0">Detail Pengurus</h1>
     </div><!-- /.col -->
     <div class="col-sm-6">
       <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Pengguna</a></li>
-        <li class="breadcrumb-item active">Detail Pengguna</li>
+        <li class="breadcrumb-item"><a href="{{ route('penguruses.index') }}">Pengurus</a></li>
+        <li class="breadcrumb-item active">Detail Pengurus</li>
       </ol>
     </div><!-- /.col -->
   </div><!-- /.row -->
@@ -20,51 +20,50 @@
 
 @section('content')
   <div class="container-fluid">
+    @include('partials.alerts')
+
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Detail Pengguna</h3>
+            <h3 class="card-title">Detail Pengurus</h3>
           </div>
           <div class="card-body">
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="name">Nama</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" readonly>
+                <label for="nama">Nama</label>
+                <input type="text" class="form-control" id="nama" name="nama" value="{{ $pengurus->nama }}" readonly>
               </div>
               <div class="form-group col-md-6">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" value="{{ $user->username }}"
-                  readonly>
+                <label for="nama_panggilan">Nama Panggilan</label>
+                <input type="text" class="form-control" id="nama_panggilan" name="nama_panggilan"
+                  value="{{ $pengurus->nama_panggilan }}" readonly>
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="role">Role</label>
-                <input type="text" name="role" id="role" value="{{ $user->role }}" class="form-control" readonly>
+                <label for="posisi_id">Posisi</label>
+                <input type="text" class="form-control" id="posisi_id" name="posisi_id"
+                  value="{{ $pengurus->posisi->nama }}" readonly>
               </div>
               <div class="form-group col-md-6">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" readonly>
+                <label for="jenis_kelamin">Jenis Kelamin</label>
+                <input type="text" class="form-control" id="jenis_kelamin" name="jenis_kelamin"
+                  value="{{ $pengurus->jenis_kelamin_text }}" readonly>
               </div>
             </div>
 
             <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="no_hp">No. Hp/WhatsApp</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">+62</span>
-                  </div>
-                  <input type="tel" class="form-control" id="no_hp" name="no_hp" maxlength="15"
-                    value="{{ $user->no_hp }}" readonly>
-                </div>
-              </div>
               <div class="form-group col-md-6">
                 <label for="alamat">Alamat</label>
-                <input type="text" name="alamat" id="alamat" class="form-control" value="{{ $user->alamat }}"
+                <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $pengurus->alamat }}"
                   readonly>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="no_hp">No. Hp/WhatsApp</label>
+                <input type="tel" class="form-control" id="no_hp" name="no_hp" maxlength="15"
+                  value="{{ $pengurus->no_hp }}" readonly>
               </div>
             </div>
 
@@ -72,8 +71,13 @@
               <div class="form-group col-md-6">
                 <label for="foto">Foto Profil</label>
                 <div class="img__preview p-1 border">
-                  <img src="{{ $user->foto_url }}" alt="{{ $user->name }}" class="img-fluid w-100">
+                  <img src="{{ $pengurus->foto_url }}" alt="{{ $pengurus->nama }}" class="img-fluid w-100">
                 </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control" value="{{ $pengurus->email }}"
+                  readonly>
               </div>
             </div>
           </div>

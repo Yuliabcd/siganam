@@ -54,9 +54,6 @@
               <div class="form-group col-md-6">
                 <label for="no_hp">No. Hp/WhatsApp</label>
                 <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">+62</span>
-                  </div>
                   <input type="tel" class="form-control" id="no_hp" name="no_hp" maxlength="15"
                     value="{{ $user->no_hp }}" readonly>
                 </div>

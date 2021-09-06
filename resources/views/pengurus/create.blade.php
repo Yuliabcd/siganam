@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('title')
-  Tambah Pengguna
+  Tambah Pengurus
 @endsection
 
 @section('page-header')
   <div class="row mb-2">
     <div class="col-sm-6">
-      <h1 class="m-0">Tambah Pengguna</h1>
+      <h1 class="m-0">Tambah Pengurus</h1>
     </div><!-- /.col -->
     <div class="col-sm-6">
       <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Pengguna</a></li>
-        <li class="breadcrumb-item active">Tambah Pengguna</li>
+        <li class="breadcrumb-item"><a href="{{ route('penguruses.index') }}">Pengurus</a></li>
+        <li class="breadcrumb-item active">Tambah Pengurus</li>
       </ol>
     </div><!-- /.col -->
   </div><!-- /.row -->
@@ -26,42 +26,48 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Tambah Pengguna</h3>
+            <h3 class="card-title">Tambah Pengurus</h3>
           </div>
-          <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('penguruses.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="name">Nama <code>*</code></label>
-                  <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
+                  <label for="nama">Nama <code>*</code></label>
+                  <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}">
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="username">Username <code>*</code></label>
-                  <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}">
+                  <label for="nama_panggilan">Nama Panggilan <code>*</code></label>
+                  <input type="text" class="form-control" id="nama_panggilan" name="nama_panggilan"
+                    value="{{ old('nama_panggilan') }}">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="role">Role <code>*</code></label>
-                  <select name="role" id="role" class="form-control">
-                    <option selected disabled hidden>--Pilih Role--</option>
-                    @foreach ($roles as $id => $role)
-                      <option value="{{ $id }}">{{ $role }}</option>
+                  <label for="posisi_id">Posisi <code>*</code></label>
+                  <select name="posisi_id" id="posisi_id" class="form-control">
+                    <option selected disabled hidden>--Pilih Posisi--</option>
+                    @foreach ($posisi as $id => $nama)
+                      <option {{ old('posisi_id') === $id ? 'selected' : '' }} value="{{ $id }}">
+                        {{ $nama }}</option>
                     @endforeach
                   </select>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="email">Email <code>*</code></label>
-                  <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
+                  <label for="jenis_kelamin">Jenis Kelamin <code>*</code></label>
+                  <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+                    <option selected hidden disabled>--Pilih Jenis Kelamin--</option>
+                    <option {{ old('jenis_kelamin') === 'l' ? 'selected' : '' }} value="l">Laki-Laki</option>
+                    <option {{ old('jenis_kelamin') === 'p' ? 'selected' : '' }} value="p">Perempuan</option>
+                  </select>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="password">Password <code>*</code></label>
-                  <input type="password" class="form-control" id="password" name="password">
+                  <label for="alamat">Alamat</label>
+                  <input type="text" class="form-control" id="alamat" name="alamat" value="{{ old('alamat') }}">
                 </div>
                 <div class="form-group col-md-6">
                   <label for="no_hp">No. Hp/WhatsApp</label>
@@ -87,8 +93,8 @@
                   </div>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="alamat">Alamat</label>
-                  <input type="text" name="alamat" id="alamat" class="form-control" value="{{ old('alamat') }}">
+                  <label for="email">Email</label>
+                  <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}">
                 </div>
               </div>
 

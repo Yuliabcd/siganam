@@ -42,8 +42,8 @@ $user = auth()->user();
       </li>
       @endrole
       <li class="nav-item">
-        <a href="{{ route('pengurus.index') }}"
-          class="nav-link {{ request()->routeIs('pengurus.index') || request()->is('pengurus/*') ? 'active' : '' }}">
+        <a href="{{ route('penguruses.index') }}"
+          class="nav-link {{ request()->routeIs('penguruses.index') || request()->is('penguruses/*') ? 'active' : '' }}">
           <i class="nav-icon fas fa-users"></i>
           <p>Pengurus</p>
         </a>

@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/password', [\App\Http\Controllers\AccountController::class, 'password'])->name('password');
     Route::put('/password', [\App\Http\Controllers\AccountController::class, 'updatePassword'])->name('update_password');
     Route::resource('users', \App\Http\Controllers\UserController::class);
-    Route::resource('pengurus', \App\Http\Controllers\PengurusController::class);
+    Route::resource('penguruses', \App\Http\Controllers\PengurusController::class);
     Route::resource('kegiatan', \App\Http\Controllers\KegiatanController::class);
     Route::resource('laporan', \App\Http\Controllers\LaporanController::class);
     Route::resource('laporan_pengurus', \App\Http\Controllers\LaporanPengurusController::class);
