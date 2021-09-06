@@ -1,5 +1,9 @@
 @extends('layouts.auth')
 
+@section('title')
+  Sign In
+@endsection
+
 @section('content')
   <p class="login-box-msg">Sign in to start your session</p>
 
@@ -10,7 +14,7 @@
         name="username" required autofocus autocomplete="username">
       <div class="input-group-append">
         <div class="input-group-text">
-          <span class="fas fa-envelope"></span>
+          <span class="fas fa-user"></span>
         </div>
       </div>
       @error('username')

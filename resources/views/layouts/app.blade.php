@@ -20,6 +20,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+  @stack('styles')
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -42,26 +44,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="content-header">
         <div class="container-fluid">
           @yield('page-header')
-          {{-- <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1 class="m-0">Starter Page</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Starter Page</li>
-              </ol>
-            </div><!-- /.col -->
-          </div><!-- /.row --> --}}
         </div><!-- /.container-fluid -->
       </div>
       <!-- /.content-header -->
 
       <!-- Main content -->
       <div class="content">
-        <div class="container-fluid">
-          @yield('content')
-        </div><!-- /.container-fluid -->
+        @yield('content')
       </div>
       <!-- /.content -->
     </div>
@@ -90,8 +79,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
   <!-- Bootstrap 4 -->
   <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
   <!-- AdminLTE App -->
   <script src="{{ asset('assets/dist/js/adminlte.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+  <script>
+    $(function() {
+      bsCustomFileInput.init();
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+  @stack('scripts')
 </body>
 
 </html>
