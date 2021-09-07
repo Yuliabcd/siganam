@@ -89,6 +89,7 @@
                     <input type="file" class="custom-file-input" id="foto" name="foto" accept=".jpg, .jpeg, .png">
                     <label class="custom-file-label" for="foto">Choose file</label>
                   </div>
+                  <small class="form-text text-muted">Ukuran maksimal 1MB, format: JPG,JPEG atau PNG</small>
                   <div class="img__preview p-1 border mt-3">
                     <img src="{{ $pengurus->foto_url }}" alt="{{ $pengurus->nama }}" class="img-fluid w-100">
                   </div>

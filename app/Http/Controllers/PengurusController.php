@@ -42,8 +42,8 @@ class PengurusController extends Controller
             'nama' => ['string', 'required', 'max:50'],
             'nama_panggilan' => ['string', 'required', 'max:50'],
             'jenis_kelamin' => ['in:l,p', 'required'],
-            'email' => ['email', 'required', 'max:50'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1000'],
+            'email' => ['email', 'nullable', 'max:50'],
+            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
             'no_hp' => ['string', 'nullable', 'max:15', 'starts_with:08,62,+62'],
             'alamat' => ['string', 'nullable', 'max:500'],
         ]);
@@ -54,7 +54,7 @@ class PengurusController extends Controller
 
         Pengurus::create($validated);
 
-        return redirect()->route('pengurus.index')->with('success', 'Berhasil menambahkan pengurus');
+        return redirect()->route('penguruses.index')->withSuccess('Berhasil menambahkan pengurus');
     }
 
     /**
@@ -94,8 +94,8 @@ class PengurusController extends Controller
             'nama' => ['string', 'required', 'max:50'],
             'nama_panggilan' => ['string', 'required', 'max:50'],
             'jenis_kelamin' => ['in:l,p', 'required'],
-            'email' => ['email', 'required', 'max:50'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1000'],
+            'email' => ['email', 'nullable', 'max:50'],
+            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
             'no_hp' => ['string', 'nullable', 'max:15', 'starts_with:08,62,+62'],
             'alamat' => ['string', 'nullable', 'max:500'],
         ]);
@@ -107,7 +107,7 @@ class PengurusController extends Controller
 
         $pengurus->update($validated);
 
-        return back()->with('success', 'Pengurus berhasil diupdate');
+        return back()->withSuccess('Pengurus berhasil diupdate');
     }
 
     /**
@@ -121,6 +121,6 @@ class PengurusController extends Controller
         Storage::disk('public')->delete($pengurus->foto);
         $pengurus->delete();
 
-        return back()->with('success', 'Pengurus Berhasil diupdate');
+        return back()->withSuccess('Pengurus Berhasil diupdate');
     }
 }

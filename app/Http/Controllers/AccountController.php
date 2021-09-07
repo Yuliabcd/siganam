@@ -21,7 +21,7 @@ class AccountController extends Controller
             'name' => ['string', 'required', 'max:50'],
             'username' => ['string', 'alpha_dash', 'required', 'max:20', 'unique:users,username,' . $user->id],
             'email' => ['email', 'required', 'max:50', 'unique:users,email,' . $user->id],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1000'],
+            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
             'no_hp' => ['string', 'nullable', 'max:15', 'starts_with:08,62,+62'],
             'alamat' => ['string', 'nullable', 'max:500'],
         ]);
@@ -33,7 +33,7 @@ class AccountController extends Controller
 
         $user->update($validated);
 
-        return back()->with('success', 'Profil Anda berhasil diubah');
+        return back()->withSuccess('Profil Anda berhasil diubah');
     }
 
     public  function password()
@@ -51,6 +51,6 @@ class AccountController extends Controller
         $user = auth()->user();
         $user->update(['password' => Hash::make($request->password)]);
 
-        return back()->with('success', 'Password Anda berhasil diubah');
+        return back()->withSuccess('Password Anda berhasil diubah');
     }
 }

@@ -23,6 +23,7 @@ class CreateKegiatanTable extends Migration
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });
+        
     }
 
     /**

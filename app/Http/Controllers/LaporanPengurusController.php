@@ -2,30 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\laporanPengurus;
+use App\Models\LaporanPengurus;
 use Illuminate\Http\Request;
 
 class LaporanPengurusController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +17,63 @@ class LaporanPengurusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'laporan_id' => ['numeric', 'required', 'exists:laporan,id'],
+            'saldo_awal'  => ['nullable', 'numeric'],
+            'keluar'  => ['nullable', 'numeric'],
+            'masuk'  => ['nullable', 'numeric'],
+            'saldo_akhir'  => ['nullable', 'numeric'],
+        ]);
+
+        LaporanPengurus::create($request->all());
+
+        return back()->withSuccess('Berhasil menambahkan laporan pengurus');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\laporanPengurus  $laporanPengurus
-     * @return \Illuminate\Http\Response
-     */
-    public function show(laporanPengurus $laporanPengurus)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\laporanPengurus  $laporanPengurus
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(laporanPengurus $laporanPengurus)
+    public function edit(LaporanPengurus $laporanPengurus)
     {
-        //
+        abort_if(!request()->ajax(), 404);
+        return response()->json($laporanPengurus);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\laporanPengurus  $laporanPengurus
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, laporanPengurus $laporanPengurus)
+    public function update(Request $request, LaporanPengurus $laporanPengurus)
     {
-        //
+        $request->validate([
+            'laporan_id' => ['numeric', 'required', 'exists:laporan,id'],
+            'saldo_awal'  => ['nullable', 'numeric'],
+            'keluar'  => ['nullable', 'numeric'],
+            'masuk'  => ['nullable', 'numeric'],
+            'saldo_akhir'  => ['nullable', 'numeric'],
+        ]);
+
+        $laporanPengurus->update($request->all());
+
+        return back()->withSuccess('Laporan pengurus berhasil diupdate');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\laporanPengurus  $laporanPengurus
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(laporanPengurus $laporanPengurus)
+    public function destroy(LaporanPengurus $laporanPengurus)
     {
-        //
+        $laporanPengurus->delete();
+        return back()->withSuccess('Laporan pengurus berhasil dihapus');
     }
 }

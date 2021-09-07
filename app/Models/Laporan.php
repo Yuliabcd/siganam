@@ -11,7 +11,7 @@ class Laporan extends Model
 
     protected $table = 'laporan';
 
-    protected $fillable = ['tanggal', 'nama', 'tempat', 'informasi', 'serap_info'];
+    protected $fillable = ['tanggal', 'tempat', 'informasi', 'serap_info'];
 
     public function laporanPengurus()
     {

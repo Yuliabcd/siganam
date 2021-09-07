@@ -47,7 +47,7 @@ class UserController extends Controller
             'username' => ['string', 'alpha_dash', 'required', 'max:20', 'unique:users,username'],
             'email' => ['email', 'required', 'max:50', 'unique:users,email'],
             'password' => ['string', 'required', 'min:3', 'max:12'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1000'],
+            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
             'no_hp' => ['string', 'nullable', 'max:15', 'starts_with:08,62,+62'],
             'alamat' => ['string', 'nullable', 'max:500'],
             'role' => ['required']
@@ -65,7 +65,7 @@ class UserController extends Controller
             $user->assignRole($role);
         }
 
-        return  redirect()->route('users.index')->with('success', 'Berhasil menambahkan pengguna');
+        return  redirect()->route('users.index')->withSuccess('Berhasil menambahkan pengguna');
     }
 
     /**
@@ -105,7 +105,7 @@ class UserController extends Controller
             'username' => ['string', 'alpha_dash', 'required', 'max:20', 'unique:users,username,' . $user->id],
             'email' => ['email', 'required', 'max:50', 'unique:users,email,' . $user->id],
             'password' => ['string', 'nullable', 'max:12'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1000'],
+            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
             'no_hp' => ['string', 'nullable', 'max:15', 'starts_with:08,62,+62'],
             'alamat' => ['string', 'nullable', 'max:500'],
             'role_id' => ['required']
@@ -128,7 +128,7 @@ class UserController extends Controller
             $user->syncRoles($request->get('role_id'));
         }
 
-        return back()->with('success', 'Pengguna berhasil diupdate');
+        return back()->withSuccess('Pengguna berhasil diupdate');
     }
 
     /**
@@ -142,6 +142,6 @@ class UserController extends Controller
         Storage::disk('public');
         $user->delete();
 
-        return back()->with('success', 'Pengguna berhasil dihapus');
+        return back()->withSuccess('Pengguna berhasil dihapus');
     }
 }

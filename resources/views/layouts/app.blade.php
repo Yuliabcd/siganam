@@ -70,6 +70,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <footer class="main-footer">
       @include('partials.footer')
     </footer>
+    @yield('modals')
   </div>
   <!-- ./wrapper -->
 

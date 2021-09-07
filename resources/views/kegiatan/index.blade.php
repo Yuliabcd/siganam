@@ -18,5 +18,10 @@
   <div class="container-fluid">
     @include('partials.alerts')
 
+    <div class="row">
+      <div class="col-lg-12">
+
+      </div>
+    </div>
   </div><!-- /.container-fluid -->
 @endsection

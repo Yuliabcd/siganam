@@ -16,7 +16,7 @@ $user = auth()->user();
       <img src="{{ $user->foto_url }}" class="img-circle elevation-2" alt="User Image">
     </div>
     <div class="info">
-      <a href="#" class="d-block">{{ $user->name }}</a>
+      <a href="{{ route('profile') }}" class="d-block">{{ $user->name }}</a>
     </div>
   </div>
 
@@ -36,7 +36,7 @@ $user = auth()->user();
       <li class="nav-item">
         <a href="{{ route('users.index') }}"
           class="nav-link {{ request()->routeIs('users.index') || request()->is('users/*') ? 'active' : '' }}">
-          <i class="nav-icon fas fa-users"></i>
+          <i class="nav-icon fas fa-users-cog"></i>
           <p>Pengguna</p>
         </a>
       </li>

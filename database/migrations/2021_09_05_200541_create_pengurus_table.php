@@ -21,8 +21,8 @@ class CreatePengurusTable extends Migration
             $table->enum('jenis_kelamin', ['l', 'p']);
             $table->tinyText('alamat')->nullable();
             $table->string('no_hp')->nullable();
-            $table->string('email');
-            $table->string('foto');
+            $table->string('email')->nullable();
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

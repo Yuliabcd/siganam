@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('title')
-  Tambah Kegiatan
+  Kegiatan
 @endsection
 
 @section('page-header')
   <div class="row mb-2">
     <div class="col-sm-6">
-      <h1 class="m-0">Tambah Kegiatan</h1>
+      <h1 class="m-0">Kegiatan</h1>
     </div><!-- /.col -->
     <div class="col-sm-6">
     </div><!-- /.col -->
@@ -18,5 +18,10 @@
   <div class="container-fluid">
     @include('partials.alerts')
 
+    <div class="row">
+      <div class="col-lg-12">
+
+      </div>
+    </div>
   </div><!-- /.container-fluid -->
 @endsection

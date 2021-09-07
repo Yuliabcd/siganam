@@ -13,7 +13,7 @@ class Kegiatan extends Model
 
     protected $fillable = ['nama', 'tempat', 'tanggal', 'jam', 'foto', 'keterangan'];
 
-    public function kegiatan()
+    public function fotoKegiatan()
     {
         return $this->hasMany(FotoKegiatan::class);
     }

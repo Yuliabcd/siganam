@@ -11,7 +11,9 @@ class LaporanSimpanPinjam extends Model
 
     protected $table = 'laporan_simpan_pinjam';
 
-    protected $fillable = ['laporan_id', 'saldo_awal', 'tabungan', 'jasa', 'angsuran', 'denda', 'piutang', 'saldo_akhir'];
+    protected $fillable = [
+        'laporan_id', 'saldo_awal', 'tabungan', 'jasa', 'angsuran', 'denda', 'piutang', 'saldo_akhir'
+    ];
 
     public function laporan()
     {

@@ -18,6 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 Auth::routes([
     'register' => false, // Registration Routes...
     'reset' => false, // Password Reset Routes...
@@ -34,8 +36,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('penguruses', \App\Http\Controllers\PengurusController::class);
     Route::resource('kegiatan', \App\Http\Controllers\KegiatanController::class);
     Route::resource('laporan', \App\Http\Controllers\LaporanController::class);
-    Route::resource('laporan_pengurus', \App\Http\Controllers\LaporanPengurusController::class);
-    Route::resource('laporan_simpan_pinjam', \App\Http\Controllers\LaporanSimpanPinjamController::class);
+    Route::put('/laporan_simpan_pinjam/{laporanSimpanPinjam}', [\App\Http\Controllers\LaporanController::class, 'updateLaporanSimpanPinjam'])->name('laporan_simpan_pinjam');
+    Route::resource('laporan_penguruses', \App\Http\Controllers\LaporanPengurusController::class)->only(['store', 'edit', 'update', 'destroy']);
 });
 
 Route::fallback(function () {
