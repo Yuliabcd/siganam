@@ -32,8 +32,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile', [\App\Http\Controllers\AccountController::class, 'updateProfile'])->name('update_profile');
     Route::get('/password', [\App\Http\Controllers\AccountController::class, 'password'])->name('password');
     Route::put('/password', [\App\Http\Controllers\AccountController::class, 'updatePassword'])->name('update_password');
-    Route::resource('users', \App\Http\Controllers\UserController::class);
-    Route::resource('penguruses', \App\Http\Controllers\PengurusController::class);
+    Route::resource('users', \App\Http\Controllers\UserController::class)->middleware('role:admin');
+    Route::resource('penguruses', \App\Http\Controllers\PengurusController::class)->middleware('role:admin');
     Route::resource('kegiatan', \App\Http\Controllers\KegiatanController::class);
     Route::resource('laporan', \App\Http\Controllers\LaporanController::class);
     Route::put('/laporan_simpan_pinjam/{laporanSimpanPinjam}', [\App\Http\Controllers\LaporanController::class, 'updateLaporanSimpanPinjam'])->name('laporan_simpan_pinjam');

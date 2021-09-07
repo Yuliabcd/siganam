@@ -19,6 +19,13 @@
 @endsection
 
 @section('content')
+  @php
+  function rupiah($angka)
+  {
+      $hasil_rupiah = 'Rp ' . number_format($angka, 2, ',', '.');
+      return $hasil_rupiah;
+  }
+  @endphp
   <div class="container-fluid">
     @include('partials.alerts')
 
@@ -107,10 +114,10 @@
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $item->pengurus->nama }}</td>
                                 <td>{{ $item->pengurus->posisi->nama }}</td>
-                                <td>{{ $item->saldo_awal }}</td>
-                                <td>{{ $item->keluar }}</td>
-                                <td>{{ $item->masuk }}</td>
-                                <td>{{ $item->saldo_akhir }}</td>
+                                <td>{{ rupiah($item->saldo_awal) }}</td>
+                                <td>{{ rupiah($item->keluar) }}</td>
+                                <td>{{ rupiah($item->masuk) }}</td>
+                                <td>{{ rupiah($item->saldo_akhir) }}</td>
                                 <td class="text-center py-0 align-middle">
                                   <div class="btn-group btn-group-sm">
                                     <button type="button" data-href="{{ route('laporan_penguruses.edit', $item->id) }}"
@@ -132,7 +139,6 @@
                         </table>
                       </div>
                     @endif
-
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-simpan-pinjam" role="tabpanel"
                     aria-labelledby="vert-tabs-laporan-simpan-pinjam-tab">

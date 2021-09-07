@@ -40,7 +40,6 @@ $user = auth()->user();
           <p>Pengguna</p>
         </a>
       </li>
-      @endrole
       <li class="nav-item">
         <a href="{{ route('penguruses.index') }}"
           class="nav-link {{ request()->routeIs('penguruses.index') || request()->is('penguruses/*') ? 'active' : '' }}">
@@ -48,6 +47,7 @@ $user = auth()->user();
           <p>Pengurus</p>
         </a>
       </li>
+      @endrole
       <li class="nav-item">
         <a href="{{ route('kegiatan.index') }}"
           class="nav-link {{ request()->routeIs('kegiatan.index') || request()->is('kegiatan/*') ? 'active' : '' }}">

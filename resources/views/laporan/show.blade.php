@@ -37,7 +37,7 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered table-sm">
+              <table class="table table-bordered">
                 <tr>
                   <th colspan="2">Hari / Tanggal</th>
                   <td colspan="6">{{ \Carbon\Carbon::parse($laporan->tanggal)->isoFormat('dddd, DD MMMM YYYY') }}</td>
@@ -45,6 +45,9 @@
                 <tr>
                   <th colspan="2">Tempat / Rumah</th>
                   <td colspan="6">{{ $laporan->tempat }}</td>
+                </tr>
+                <tr>
+                  <td colspan="8">Laporan Bendahara (Seksi dan Laporan DATA WARGA masing-masing RT se Ganam)</td>
                 </tr>
                 <tr>
                   <th>Pengurus</th>
