@@ -36,22 +36,21 @@ class KegiatanController extends Controller
      */
     public function store(Request $request)
     {
-        $vaidated = $this->validate($request, [
+
+        $validated = $this->validate($request, [
             'nama' => ['string', 'required', 'max:200'],
             'tempat' => ['string', 'required', 'max:300'],
             'tanggal' => ['date_format:Y-m-d', 'before_or_equal:' . date('Y-m-d'), 'required'],
-            'jam' => ['date_format:H:i', 'nullable'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
+            'jam' => ['nullable'],
+            'foto' => ['file', 'mimes:jpg,jpeg,png', 'required', 'max:1024'],
             'keterangan' => ['string', 'nullable', 'max:500']
         ]);
 
-        if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('images', 'public');
-        }
+        $validated['foto'] = $request->file('foto')->store('images', 'public');
 
-        $kegiatan = Kegiatan::create($vaidated);
+        $kegiatan = Kegiatan::create($validated);
 
-        return redirect()->route('kegiatan.edit', $kegiatan->id)->withSuccess('Berhasil menamahkan kegiatan');
+        return redirect()->route('kegiatan.index')->withSuccess('Berhasil menamahkan kegiatan');
     }
 
     /**
@@ -89,7 +88,7 @@ class KegiatanController extends Controller
             'nama' => ['string', 'required', 'max:200'],
             'tempat' => ['string', 'required', 'max:300'],
             'tanggal' => ['date_format:Y-m-d', 'before_or_equal:' . date('Y-m-d'), 'required'],
-            'jam' => ['date_format:H:i', 'nullable'],
+            'jam' => ['nullable'],
             'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
             'keterangan' => ['string', 'nullable', 'max:500']
         ]);

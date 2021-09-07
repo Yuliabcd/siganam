@@ -51,7 +51,8 @@
                       <td>{{ $item->nama_panggilan }}</td>
                       <td>{{ $item->jenis_kelamin_text }}</td>
                       <td>{{ $item->posisi->nama }}</td>
-                      <td> <img src="{{ $item->foto_url }}" class="img-thumbnail" alt="{{ $item->nama }}"></td>
+                      <td> <img width="100" src="{{ $item->foto_url }}" class="img-thumbnail"
+                          alt="{{ $item->nama }}"></td>
                       <td class="text-center py-0 align-middle">
                         <div class="btn-group btn-group-sm">
                           <a href="{{ route('penguruses.show', $item->id) }}" class="btn btn-primary"

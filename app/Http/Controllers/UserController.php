@@ -59,6 +59,8 @@ class UserController extends Controller
             $validated['foto'] = $request->file('foto')->store('images', 'public');
         }
 
+     
+
         $user = User::create($validated);
 
         if (!empty($request->role) && $role = Role::findById($request->role)) {
