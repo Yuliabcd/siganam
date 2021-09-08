@@ -100,6 +100,7 @@ class KegiatanController extends Controller
 
         $kegiatan->update($validated);
 
+
         return back()->withSuccess('Kegiatan berhasil diupdate');
     }
 
