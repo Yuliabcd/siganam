@@ -59,7 +59,7 @@ class UserController extends Controller
             $validated['foto'] = $request->file('foto')->store('images', 'public');
         }
 
-     
+
 
         $user = User::create($validated);
 
@@ -113,7 +113,7 @@ class UserController extends Controller
             'role_id' => ['required']
         ]);
 
-        if ($request->has('password')) {
+        if ($request->has('password') && $request->password !== null) {
             $validated['password'] = Hash::make($request->password);
         } else {
             unset($validated['password']);
