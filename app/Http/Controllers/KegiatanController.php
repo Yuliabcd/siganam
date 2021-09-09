@@ -85,7 +85,7 @@ class KegiatanController extends Controller
      */
     public function update(Request $request, Kegiatan $kegiatan)
     {
-        $vaidated = $this->validate($request, [
+        $validated = $this->validate($request, [
             'nama' => ['string', 'required', 'max:200'],
             'tempat' => ['string', 'required', 'max:300'],
             'tanggal' => ['date_format:Y-m-d', 'before_or_equal:' . date('Y-m-d'), 'required'],
@@ -99,7 +99,8 @@ class KegiatanController extends Controller
             Storage::disk('public')->delete($kegiatan->foto);
         }
 
-        $kegiatan->update($vaidated);
+        $kegiatan->update($validated);
+
 
         return back()->withSuccess('Kegiatan berhasil diupdate');
     }
