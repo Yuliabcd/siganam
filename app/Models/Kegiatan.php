@@ -17,4 +17,6 @@ class Kegiatan extends Model
     {
         return $this->hasMany(FotoKegiatan::class);
     }
+
+    
 }

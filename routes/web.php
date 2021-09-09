@@ -38,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('laporan', \App\Http\Controllers\LaporanController::class);
     Route::put('/laporan_simpan_pinjam/{laporanSimpanPinjam}', [\App\Http\Controllers\LaporanController::class, 'updateLaporanSimpanPinjam'])->name('laporan_simpan_pinjam');
     Route::resource('laporan_penguruses', \App\Http\Controllers\LaporanPengurusController::class)->only(['store', 'edit', 'update', 'destroy']);
+    Route::post('/upload_foto_kegiatan/{id}', [\App\Http\Controllers\KegiatanController::class, 'uploadFoto'])->name('upload_foto_kegiatan');
+    Route::delete('/delete_foto_kegiatan/{id}', [\App\Http\Controllers\KegiatanController::class, 'deleteFoto'])->name('delete_foto_kegiatan');
 });
 
 Route::fallback(function () {

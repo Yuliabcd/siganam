@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FotoKegiatan;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -122,7 +123,32 @@ class KegiatanController extends Controller
         return back()->withSuccess('Kegiatan berhasil dihapus');
     }
 
-    public function uploadImage(Request $request, $id)
+    public function uploadFoto(Request $request, $id)
     {
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            FotoKegiatan::create([
+                'kegiatan_id' => $id,
+                'path' => $path
+            ]);
+
+            return response()->json(['message' => 'OK']);
+        }
+
+        return response()->json(['message' => 'Invalid request'], 422);
+    }
+
+    public function deleteFoto(Request $request, $id)
+    {
+        $request->validate([
+            'foto_id' => ['required', 'numeric', 'exists:foto_kegiatan,id']
+        ]);
+
+        $foto = FotoKegiatan::findOrFail($request->foto_id);
+        Storage::disk('public')->delete($foto->path);
+        $foto->delete();
+
+        return response()->json(['message' => 'OK'], 204);
     }
 }

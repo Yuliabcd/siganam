@@ -81,13 +81,38 @@
             </div>
           </form>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Galeri Foto</h3>
+          </div>
+          <div class="card-body">
+            <form action="{{ route('upload_foto_kegiatan', $kegiatan->id) }}" method="POST" class="dropzone"
+              id="formFotoKegiatan">
+              @csrf
+              <div class="fallback">
+                <input name="file" type="file" multiple />
+              </div>
+            </form>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-block btn-primary btn-save">Simpan</button>
+          </div>
+        </div>
+        <!-- /.card -->
       </div>
     </div>
   </div><!-- /.container-fluid -->
 @endsection
 
+@push('styles')
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css">
+@endpush
+
 @push('scripts')
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.js"></script>
   <script>
+    Dropzone.autoDiscover = false;
     $(function() {
       $('#foto').on('change', function() {
         const file = $(this).get(0).files[0];
@@ -102,6 +127,88 @@
           reader.readAsDataURL(file);
 
           $('.img__preview').removeClass('d-none');
+        }
+      });
+
+      var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      });
+
+
+      let dropzone = new Dropzone('.dropzone', {
+        url: "{{ route('upload_foto_kegiatan', $kegiatan->id) }}",
+        autoProcessQueue: false,
+        addRemoveLinks: true,
+        maxFileSize: 3,
+        paramName: 'image',
+        acceptedFiles: 'image/*',
+        removedfile: function(file) {
+          let _ref;
+
+          if (!file.id) {
+            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) :
+              null;
+          }
+
+          $.ajax({
+            type: 'DELETE',
+            url: '{{ route('delete_foto_kegiatan', $kegiatan->id) }}',
+            data: {
+              foto_id: file.id,
+              "_token": "{{ csrf_token() }}"
+            }
+          }).then(function() {
+            Toast.fire({
+              title: 'Image deleted',
+              icon: 'success'
+            })
+            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) :
+              null;
+          }).fail(function(jqXHR, textStatus, errorThrown) {
+            Toast.fire({
+              title: errorThrown,
+              icon: 'error'
+            })
+          });
+        },
+        init: function() {
+          let submitButton = $('button.btn-save')
+          let myDropzone = this;
+
+          let files = [
+            @foreach ($kegiatan->fotoKegiatan as $image)
+              { name: "{{ $image->filename }}", size: {{ $image->size }}, url: '{{ url($image->foto_url) }}', id:
+              {{ $image->id }} } @if (!$loop->last) , @endif
+            @endforeach
+          ];
+
+          $.each(files, function(index, file) {
+            myDropzone.emit('addedfile', file)
+            myDropzone.emit('thumbnail', file, file.url)
+          })
+
+          submitButton.on('click', function() {
+            myDropzone.processQueue();
+          });
+          myDropzone.on('addedfile', function(file) {
+            if (!file.type.match(/image.*/)) {
+              myDropzone.removeFile(file)
+              Toast.fire({
+                title: 'Invalid image',
+                icon: 'error'
+              })
+            }
+          });
+          myDropzone.on('complete', function(file) {
+            Toast.fire({
+              title: 'Image uploaded successfully',
+              icon: 'success'
+            })
+            window.location.reload();
+          });
         }
       });
     });
