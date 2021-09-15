@@ -1,17 +1,18 @@
 @extends('layouts.auth')
 
 @section('title')
-  Sign In
+  Masuk
 @endsection
 
 @section('content')
-  <p class="login-box-msg">Sign in to start your session</p>
+  <p class="login-box-msg">
+    Masuk untuk memulai sesi Anda</p>
 
   <form action="{{ route('login') }}" method="POST">
     @csrf
     <div class="input-group mb-3">
-      <input type="text" class="form-control @error('username') is-invalid @enderror" placeholder="Username/Email"
-        name="username" required autofocus autocomplete="username">
+      <input type="text" class="form-control @error('username') is-invalid @enderror"
+        placeholder="Username atau alamat email" name="username" required autofocus autocomplete="username">
       <div class="input-group-append">
         <div class="input-group-text">
           <span class="fas fa-user"></span>
@@ -48,7 +49,7 @@
       </div>
       <!-- /.col -->
       <div class="col-4">
-        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        <button type="submit" class="btn btn-primary btn-block">Masuk</button>
       </div>
       <!-- /.col -->
     </div>
@@ -57,12 +58,12 @@
 
   <p class="mb-1">
     @if (Route::has('password.request'))
-      <a href="{{ route('password.request') }}"> forgot my password</a>
+      <a href="{{ route('password.request') }}">Lupa Password</a>
     @endif
   </p>
   <p class="mb-0">
     @if (Route::has('register'))
-      <a href="{{ 'register' }}" class="text-center">Register a new membership</a>
+      <a href="{{ 'register' }}" class="text-center">Daftarkan keanggotaan baru</a>
     @endif
   </p>
 @endsection

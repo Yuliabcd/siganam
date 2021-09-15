@@ -6,14 +6,10 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{ url('/home') }}" class="nav-link">Home</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a class="nav-link text-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+      <li class="nav-item d-none d-sm-inline-block ">
+        <a class="nav-link text-danger btn__logout" href="#">
           Logout
         </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-          @csrf
-        </form>
       </li>
     </ul>
 

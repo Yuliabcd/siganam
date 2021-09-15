@@ -13,6 +13,10 @@ class Laporan extends Model
 
     protected $fillable = ['tanggal', 'tempat', 'informasi', 'serap_info'];
 
+    protected $casts = [
+        'tanggal' => 'date',
+    ];
+
     public function laporanPengurus()
     {
         return $this->hasMany(LaporanPengurus::class);

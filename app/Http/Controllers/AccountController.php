@@ -18,16 +18,16 @@ class AccountController extends Controller
         $user = auth()->user();
 
         $validated = $this->validate($request, [
-            'name' => ['string', 'required', 'max:50'],
-            'username' => ['string', 'alpha_dash', 'required', 'max:20', 'unique:users,username,' . $user->id],
-            'email' => ['email', 'required', 'max:50', 'unique:users,email,' . $user->id],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
-            'no_hp' => ['string', 'nullable', 'max:15', 'starts_with:08,62,+62'],
-            'alamat' => ['string', 'nullable', 'max:500'],
+            'name' => 'required|string|max:100',
+            'username' => 'required|string|alpha_dash|max:25|unique:users,username,' . $user->id,
+            'email' => 'required|email|max:100|unique:users,email,' . $user->id,
+            'foto' => 'nullable|file|mimes:jpg,jpeg,png|max:1024',
+            'no_hp' => 'nullable|string|min:10|max:15|starts_with:08,62,+62',
+            'alamat' => 'nullable|string|max:300',
         ]);
 
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('images', 'public');
+            $validated['foto'] = $request->file('foto')->store('images/avatars', 'public');
             Storage::disk('public')->delete($user->foto);
         }
 
@@ -44,8 +44,8 @@ class AccountController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'current_password' => ['required', 'current_password'],
-            'password' => ['string', 'required', 'min:3', 'max:12', 'confirmed'],
+            'current_password' => 'required|current_password',
+            'password' => 'required|string|min:3|max:12|confirmed',
         ]);
 
         $user = auth()->user();

@@ -15,19 +15,13 @@ class PosisiSeeder extends Seeder
     public function run()
     {
         Posisi::insert([
-            ['nama' => 'Pembina'],
             ['nama' => 'Ketua'],
-            ['nama' => 'Wakil Ketua'],
-            ['nama' => 'Sekretaris'],
             ['nama' => 'Sekretaris I'],
             ['nama' => 'Sekretaris II'],
-            ['nama' => 'Wakil Sekretaris'],
-            ['nama' => 'Wakil Sekretaris I'],
-            ['nama' => 'Wakil Sekretaris II'],
             ['nama' => 'Bendahara'],
-            ['nama' => 'Wakil Bendahara'],
             ['nama' => 'Sie. Sosial'],
-            ['nama' => 'Arisan'],
+            ['nama' => 'Sie. Simpan Pinjam'],
+            ['nama' => 'Sie. Arisan'],
             ['nama' => 'Posyandu'],
         ]);
     }

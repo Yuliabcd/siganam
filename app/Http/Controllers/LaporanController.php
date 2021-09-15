@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Laporan\LaporanStoreRequest;
+use App\Http\Requests\Laporan\LaporanUpdateRequest;
+use App\Http\Requests\LaporanSimpanPinjamUpdateRequest;
 use App\Models\Laporan;
 use App\Models\LaporanPengurus;
 use App\Models\LaporanSimpanPinjam;
@@ -19,7 +22,7 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        return view('laporan.index')->with(['laporan' => Laporan::latest()->paginate(15)]);
+        return view('laporan.index')->with(['laporan' => Laporan::latest()->paginate(10)]);
     }
 
     /**
@@ -38,26 +41,17 @@ class LaporanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LaporanStoreRequest $request)
     {
-        $validated = $this->validate($request, [
-            'tanggal' => ['date_format:Y-m-d', 'before_or_equal:' . date('Y-m-d'), 'required'],
-            'tempat' => ['string', 'required', 'max:300'],
-            'informasi' => ['string', 'nullable'],
-            'serap_info' => ['string', 'nullable']
-        ]);
-
-
         try {
             DB::beginTransaction();
-            $laporan = Laporan::create($validated);
+            $laporan = Laporan::create($request->validated());
             LaporanSimpanPinjam::create(['laporan_id' => $laporan->id]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             return back()->withErrors($e->getMessage())->withInput();
         }
-
 
         return redirect()->route('laporan.edit', $laporan->id)->withSuccess('Berhasil menambahkan laporan');
     }
@@ -93,16 +87,9 @@ class LaporanController extends Controller
      * @param  \App\Models\Laporan  $laporan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Laporan $laporan)
+    public function update(LaporanUpdateRequest $request, Laporan $laporan)
     {
-        $validated = $this->validate($request, [
-            'tanggal' => ['date_format:Y-m-d', 'before_or_equal:' . date('Y-m-d'), 'required'],
-            'tempat' => ['string', 'required', 'max:300'],
-            'informasi' => ['string', 'nullable'],
-            'serap_info' => ['string', 'nullable']
-        ]);
-
-        $laporan->update($validated);
+        $laporan->update($request->validated());
         return back()->withSuccess('Laporan berhasil diupdate');
     }
 
@@ -118,19 +105,9 @@ class LaporanController extends Controller
         return back()->withSuccess('Laporan berhasil dihapus');
     }
 
-    public function updateLaporanSimpanPinjam(Request $request, LaporanSimpanPinjam $laporanSimpanPinjam)
+    public function updateLaporanSimpanPinjam(LaporanSimpanPinjamUpdateRequest $request, LaporanSimpanPinjam $laporanSimpanPinjam)
     {
-        $validated = $this->validate($request, [
-            'saldo_awal' => ['nullable', 'numeric'],
-            'tabungan' => ['nullable', 'numeric'],
-            'jasa' => ['nullable', 'numeric'],
-            'angsuran' => ['nullable', 'numeric'],
-            'denda' => ['nullable', 'numeric'],
-            'piutang' => ['nullable', 'numeric'],
-            'saldo_akhir' => ['nullable', 'numeric']
-        ]);
-
-        $laporanSimpanPinjam->update($validated);
+        $laporanSimpanPinjam->update($request->validated());
         return back()->withSuccess('Laporan simpan pinjam berhasil diupdate');
     }
 }

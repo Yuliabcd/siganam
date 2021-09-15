@@ -44,7 +44,7 @@
                   @foreach ($laporan as $i => $item)
                     <tr>
                       <td>{{ ($laporan->currentpage() - 1) * $laporan->perpage() + $i + 1 }}</td>
-                      <td>{{ $item->tanggal }}</td>
+                      <td>{{ $item->tanggal->isoFormat('DD MMMM YYYY') }}</td>
                       <td>{{ $item->tempat }}</td>
                       <td class="text-center py-0 align-middle">
                         <div class="btn-group btn-group-sm">

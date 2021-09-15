@@ -3,8 +3,7 @@ $user = auth()->user();
 @endphp
 <!-- Brand Logo -->
 <a href="{{ route('home') }}" class="brand-link">
-  <img src="{{ asset('assets/image/pkk.png') }}" alt="AdminLTE Logo"
-    class="brand-image img-circle elevation-3">
+  <img src="{{ asset('assets/image/pkk.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
   <span class="brand-text font-weight-light">Siganam</span>
 </a>
 
@@ -73,6 +72,12 @@ $user = auth()->user();
         <a href="{{ route('password') }}" class="nav-link {{ request()->routeIs('password') ? 'active' : '' }}">
           <i class="nav-icon fas fa-lock"></i>
           <p>Ubah Password</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link btn__logout">
+          <i class="nav-icon far fa-circle text-danger"></i>
+          <p class="text">Logout</p>
         </a>
       </li>
     </ul>

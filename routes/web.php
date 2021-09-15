@@ -14,12 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth/login');
-});
-
-
-
 Auth::routes([
     'register' => false, // Registration Routes...
     'reset' => false, // Password Reset Routes...
@@ -28,6 +22,7 @@ Auth::routes([
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/profile', [\App\Http\Controllers\AccountController::class, 'profile'])->name('profile');
     Route::put('/profile', [\App\Http\Controllers\AccountController::class, 'updateProfile'])->name('update_profile');
     Route::get('/password', [\App\Http\Controllers\AccountController::class, 'password'])->name('password');
@@ -39,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/laporan_simpan_pinjam/{laporanSimpanPinjam}', [\App\Http\Controllers\LaporanController::class, 'updateLaporanSimpanPinjam'])->name('laporan_simpan_pinjam');
     Route::resource('laporan_penguruses', \App\Http\Controllers\LaporanPengurusController::class)->only(['store', 'edit', 'update', 'destroy']);
     Route::post('/upload_foto_kegiatan/{id}', [\App\Http\Controllers\KegiatanController::class, 'uploadFoto'])->name('upload_foto_kegiatan');
-    Route::delete('/delete_foto_kegiatan/{id}', [\App\Http\Controllers\KegiatanController::class, 'deleteFoto'])->name('delete_foto_kegiatan');
+    Route::delete('/delete_foto_kegiatan', [\App\Http\Controllers\KegiatanController::class, 'deleteFoto'])->name('delete_foto_kegiatan');
 });
 
 Route::fallback(function () {

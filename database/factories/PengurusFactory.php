@@ -3,7 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Pengurus;
+use App\Models\Posisi;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class PengurusFactory extends Factory
 {
@@ -21,8 +23,17 @@ class PengurusFactory extends Factory
      */
     public function definition()
     {
+        $jenis_kelamin = $this->faker->randomElement(['l', 'p']);
+        $nama = $this->faker->name($jenis_kelamin === 'l' ? 'male' : 'female');
+
         return [
-            //
+            'posisi_id' => Posisi::inRandomOrder()->first()->id,
+            'nama' =>  $nama,
+            'nama_panggilan' => Str::words($nama, 1, ''),
+            'jenis_kelamin' => $jenis_kelamin,
+            'alamat' => $this->faker->address(),
+            'no_hp' => $this->faker->numerify('+628##########'),
+            'email' => $this->faker->email(),
         ];
     }
 }

@@ -72,6 +72,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </footer>
     @yield('modals')
   </div>
+
+  <form id="logout__form" action="{{ route('logout') }}" method="POST" class="d-none">
+    @csrf
+  </form>
   <!-- ./wrapper -->
 
   <!-- REQUIRED SCRIPTS -->
@@ -88,6 +92,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     $(function() {
       bsCustomFileInput.init();
       $('[data-toggle="tooltip"]').tooltip();
+
+      $('.btn__logout').on('click', function(e) {
+        e.preventDefault();
+        $('#logout__form').trigger('submit');
+      });
     });
   </script>
   @stack('scripts')

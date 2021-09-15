@@ -59,7 +59,7 @@
                       <div class="form-group">
                         <label for="tanggal">Tanggal <code>*</code></label>
                         <input type="date" name="tanggal" id="tanggal" class="form-control"
-                          value="{{ $laporan->tanggal }}">
+                          value="{{ $laporan->tanggal->format('Y-m-d') }}">
                       </div>
                       <div class="form-group">
                         <label for="tempat">Tempat <code>*</code></label>
@@ -90,55 +90,51 @@
                     @php
                       $laporan_pengurus = $laporan->laporanPengurus;
                     @endphp
-                    @if ($laporan_pengurus->count() === 0)
-                      <h3 class="text-center">Belum ada laporan pengurus</h3>
-                    @else
-                      <div class="table-responsive">
-                        <table class="table table-head-fixed text-nowrap table-bordered table-hover"
-                          id="tabelLaporanPengurus">
-                          <thead>
+                    <div class="table-responsive">
+                      <table class="table table-head-fixed text-nowrap table-bordered table-hover"
+                        id="tabelLaporanPengurus">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Pengurus</th>
+                            <th>Posisi</th>
+                            <th>Saldo Awal</th>
+                            <th>Keluar</th>
+                            <th>Masuk</th>
+                            <th>Saldo Akhir</th>
+                            <th>Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($laporan_pengurus as $i => $item)
                             <tr>
-                              <th>#</th>
-                              <th>Pengurus</th>
-                              <th>Posisi</th>
-                              <th>Saldo Awal</th>
-                              <th>Keluar</th>
-                              <th>Masuk</th>
-                              <th>Saldo Akhir</th>
-                              <th>Aksi</th>
+                              <td>{{ ++$i }}</td>
+                              <td>{{ $item->pengurus->nama }}</td>
+                              <td>{{ $item->pengurus->posisi->nama }}</td>
+                              <td>{{ rupiah($item->saldo_awal) }}</td>
+                              <td>{{ rupiah($item->keluar) }}</td>
+                              <td>{{ rupiah($item->masuk) }}</td>
+                              <td>{{ rupiah($item->saldo_akhir) }}</td>
+                              <td class="text-center py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                  <button type="button" data-href="{{ route('laporan_penguruses.edit', $item->id) }}"
+                                    class="btn btn-info btn__edit" data-toggle="tooltip" data-placement="left"
+                                    title="Edit">
+                                    <i class="fas fa-pencil-alt"></i>
+                                  </button>
+                                  <button type="button"
+                                    data-href="{{ route('laporan_penguruses.destroy', $item->id) }}"
+                                    class="btn btn-danger btn__delete" data-toggle="tooltip" data-placement="left"
+                                    title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                  </button>
+                                </div>
+                              </td>
                             </tr>
-                          </thead>
-                          <tbody>
-                            @foreach ($laporan_pengurus as $i => $item)
-                              <tr>
-                                <td>{{ ++$i }}</td>
-                                <td>{{ $item->pengurus->nama }}</td>
-                                <td>{{ $item->pengurus->posisi->nama }}</td>
-                                <td>{{ rupiah($item->saldo_awal) }}</td>
-                                <td>{{ rupiah($item->keluar) }}</td>
-                                <td>{{ rupiah($item->masuk) }}</td>
-                                <td>{{ rupiah($item->saldo_akhir) }}</td>
-                                <td class="text-center py-0 align-middle">
-                                  <div class="btn-group btn-group-sm">
-                                    <button type="button" data-href="{{ route('laporan_penguruses.edit', $item->id) }}"
-                                      class="btn btn-info btn__edit" data-toggle="tooltip" data-placement="left"
-                                      title="Edit">
-                                      <i class="fas fa-pencil-alt"></i>
-                                    </button>
-                                    <button type="button"
-                                      data-href="{{ route('laporan_penguruses.destroy', $item->id) }}"
-                                      class="btn btn-danger btn__delete" data-toggle="tooltip" data-placement="left"
-                                      title="Hapus">
-                                      <i class="fas fa-trash"></i>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            @endforeach
-                          </tbody>
-                        </table>
-                      </div>
-                    @endif
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-simpan-pinjam" role="tabpanel"
                     aria-labelledby="vert-tabs-laporan-simpan-pinjam-tab">
@@ -311,7 +307,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Tambah Laporan Pengurus</h4>
+          <h4 class="modal-title">Edit Laporan Pengurus</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

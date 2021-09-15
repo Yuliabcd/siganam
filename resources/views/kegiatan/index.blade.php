@@ -50,7 +50,7 @@
                         <img width="100" src="{{ Storage::url($item->foto) }}" alt="{{ $item->nama }}"
                           class="img-thumbnail">
                       </td>
-                      <td>{{ $item->tanggal }}</td>
+                      <td>{{ $item->tanggal->isoFormat('DD MMMM YYYY') }}</td>
                       <td>{{ $item->nama }}</td>
                       <td>{{ $item->tempat }}</td>
                       <td class="text-center py-0 align-middle">

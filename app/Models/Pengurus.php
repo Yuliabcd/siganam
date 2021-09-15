@@ -35,7 +35,7 @@ class Pengurus extends Model
     public function getFotoUrlAttribute()
     {
         if ($this->attributes['foto'] === null) {
-            return  'https://dukcapil.klatenkab.go.id/assets/img/user.png';
+            return asset('assets/image/user.png');
         }
 
         return  Storage::url($this->attributes['foto']);

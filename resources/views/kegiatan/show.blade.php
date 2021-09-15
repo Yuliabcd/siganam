@@ -31,8 +31,8 @@
           <div class="card-body">
             <table class="table table-bordered table-sm">
               <tr>
-                <td colspan="2">
-                  <img src="{{ Storage::url($kegiatan->foto) }}" alt="{{ $kegiatan->nama }}" class="img-fluid w-100">
+                <td colspan="2" class="text-center">
+                  <img src="{{ Storage::url($kegiatan->foto) }}" alt="{{ $kegiatan->nama }}" class="img-fluid w-50">
                 </td>
               </tr>
               <tr>
@@ -41,11 +41,11 @@
               </tr>
               <tr>
                 <th>Tanggal</th>
-                <td>{{ \Carbon\Carbon::parse($kegiatan->tanggal)->isoFormat('dddd, DD MMMM YYYY') }}</td>
+                <td>{{ $kegiatan->tanggal->isoFormat('dddd, DD MMMM YYYY') }}</td>
               </tr>
               <tr>
                 <th>Jam</th>
-                <td>{{ $kegiatan->jam }}</td>
+                <td>{{ $kegiatan->jam->format('H:i') }}</td>
               </tr>
               <tr>
                 <th>Tempat</th>
@@ -67,13 +67,12 @@
             <div class="row">
               @foreach ($kegiatan->fotoKegiatan as $item)
                 <div class="col-sm-2">
-                  <a href="{{ $item->foto_url }}" data-toggle="lightbox" data-title="{{ $item->filename }}"
+                  <a href="{{ $item->foto_url }}" data-toggle="lightbox" data-title="Foto Kegiatan"
                     data-gallery="gallery">
                     <img src="{{ $item->foto_url }}" class="img-fluid w-100 mb-2" alt="{{ $item->filename }}" />
                   </a>
                 </div>
               @endforeach
-
             </div>
           </div>
         </div>

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Users\UserStoreRequest;
+use App\Http\Requests\Users\UserUpdateRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
@@ -18,7 +19,7 @@ class UserController extends Controller
     public function index()
     {
         return view('users.index')->with([
-            'users' => User::latest()->paginate(15)
+            'users' => User::latest()->paginate(10)
         ]);
     }
 
@@ -40,30 +41,18 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        $validated = $this->validate($request, [
-            'name' => ['string', 'required', 'max:50'],
-            'username' => ['string', 'alpha_dash', 'required', 'max:20', 'unique:users,username'],
-            'email' => ['email', 'required', 'max:50', 'unique:users,email'],
-            'password' => ['string', 'required', 'min:3', 'max:12'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
-            'no_hp' => ['string', 'nullable', 'max:15', 'starts_with:08,62,+62'],
-            'alamat' => ['string', 'nullable', 'max:500'],
-            'role' => ['required']
-        ]);
-
+        $validated = $request->validated();
         $validated['password'] = Hash::make($request->password);
 
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('images', 'public');
+            $validated['foto'] = $request->file('foto')->store('images/avatars', 'public');
         }
-
-
 
         $user = User::create($validated);
 
-        if (!empty($request->role) && $role = Role::findById($request->role)) {
+        if ($request->filled('role') && $role = Role::findById($request->role)) {
             $user->assignRole($role);
         }
 
@@ -100,34 +89,22 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        $validated = $this->validate($request, [
-            'name' => ['string', 'required', 'max:50'],
-            'username' => ['string', 'alpha_dash', 'required', 'max:20', 'unique:users,username,' . $user->id],
-            'email' => ['email', 'required', 'max:50', 'unique:users,email,' . $user->id],
-            'password' => ['string', 'nullable', 'max:12'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
-            'no_hp' => ['string', 'nullable', 'max:15', 'starts_with:08,62,+62'],
-            'alamat' => ['string', 'nullable', 'max:500'],
-            'role_id' => ['required']
-        ]);
+        $validated = $request->validated();
 
-        if ($request->has('password') && $request->password !== null) {
-            $validated['password'] = Hash::make($request->password);
-        } else {
-            unset($validated['password']);
-        }
+        $validated['password'] = $request->has('password') && $request->filled('password') ?
+            Hash::make($request->password) : $user->password;;
 
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('images', 'public');
+            $validated['foto'] = $request->file('foto')->store('images/avatars', 'public');
             Storage::disk('public')->delete($user->foto);
         }
 
         $user->update($validated);
 
-        if ($request->get('role_id')) {
-            $user->syncRoles($request->get('role_id'));
+        if ($request->has('role_id') && $request->filled('role_id')) {
+            $user->syncRoles($request->role_id);
         }
 
         return back()->withSuccess('Pengguna berhasil diupdate');
@@ -141,7 +118,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        Storage::disk('public');
+        Storage::disk('public')->delete($user->avatar);
         $user->delete();
 
         return back()->withSuccess('Pengguna berhasil dihapus');

@@ -13,10 +13,13 @@ class Kegiatan extends Model
 
     protected $fillable = ['nama', 'tempat', 'tanggal', 'jam', 'foto', 'keterangan'];
 
+    protected $casts = [
+        'tanggal' => 'date',
+        'jam' => 'datetime'
+    ];
+
     public function fotoKegiatan()
     {
         return $this->hasMany(FotoKegiatan::class);
     }
-
-    
 }

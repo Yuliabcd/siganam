@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LaporanPengurus\LaporanPengurusStoreRequest;
+use App\Http\Requests\LaporanPengurus\LaporanPengurusUpdateRequest;
 use App\Models\LaporanPengurus;
 use Illuminate\Http\Request;
 
@@ -15,18 +17,9 @@ class LaporanPengurusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LaporanPengurusStoreRequest $request)
     {
-        $request->validate([
-            'laporan_id' => ['numeric', 'required', 'exists:laporan,id'],
-            'saldo_awal'  => ['nullable', 'numeric'],
-            'keluar'  => ['nullable', 'numeric'],
-            'masuk'  => ['nullable', 'numeric'],
-            'saldo_akhir'  => ['nullable', 'numeric'],
-        ]);
-
-        LaporanPengurus::create($request->all());
-
+        LaporanPengurus::create($request->validated());
         return back()->withSuccess('Berhasil menambahkan laporan pengurus');
     }
 
@@ -39,7 +32,7 @@ class LaporanPengurusController extends Controller
      */
     public function edit(LaporanPengurus $laporanPengurus)
     {
-        abort_if(!request()->ajax(), 404);
+        abort_unless(request()->ajax(), 404);
         return response()->json($laporanPengurus);
     }
 
@@ -50,18 +43,9 @@ class LaporanPengurusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LaporanPengurus $laporanPengurus)
+    public function update(LaporanPengurusUpdateRequest $request, LaporanPengurus $laporanPengurus)
     {
-        $request->validate([
-            'laporan_id' => ['numeric', 'required', 'exists:laporan,id'],
-            'saldo_awal'  => ['nullable', 'numeric'],
-            'keluar'  => ['nullable', 'numeric'],
-            'masuk'  => ['nullable', 'numeric'],
-            'saldo_akhir'  => ['nullable', 'numeric'],
-        ]);
-
-        $laporanPengurus->update($request->all());
-
+        $laporanPengurus->update($request->validated());
         return back()->withSuccess('Laporan pengurus berhasil diupdate');
     }
 

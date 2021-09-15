@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Kegiatan\KegiatanStoreRequest;
+use App\Http\Requests\Kegiatan\KegiatanUpdateRequest;
 use App\Models\FotoKegiatan;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ class KegiatanController extends Controller
      */
     public function index()
     {
-        return view('kegiatan.index')->with(['kegiatan' => Kegiatan::latest()->paginate(15)]);
+        return view('kegiatan.index')->with(['kegiatan' => Kegiatan::latest()->paginate(10)]);
     }
 
     /**
@@ -35,21 +37,13 @@ class KegiatanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(KegiatanStoreRequest $request)
     {
 
-        $validated = $this->validate($request, [
-            'nama' => ['string', 'required', 'max:200'],
-            'tempat' => ['string', 'required', 'max:300'],
-            'tanggal' => ['date_format:Y-m-d', 'before_or_equal:' . date('Y-m-d'), 'required'],
-            'jam' => ['nullable'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'required', 'max:1024'],
-            'keterangan' => ['string', 'nullable', 'max:500']
-        ]);
+        $validated = $request->validated();
+        $validated['foto'] = $request->file('foto')->store('images/kegiatan', 'public');
 
-        $validated['foto'] = $request->file('foto')->store('images', 'public');
-
-        $kegiatan = Kegiatan::create($validated);
+        Kegiatan::create($validated);
 
         return redirect()->route('kegiatan.index')->withSuccess('Berhasil menamahkan kegiatan');
     }
@@ -83,24 +77,16 @@ class KegiatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kegiatan $kegiatan)
+    public function update(KegiatanUpdateRequest $request, Kegiatan $kegiatan)
     {
-        $validated = $this->validate($request, [
-            'nama' => ['string', 'required', 'max:200'],
-            'tempat' => ['string', 'required', 'max:300'],
-            'tanggal' => ['date_format:Y-m-d', 'before_or_equal:' . date('Y-m-d'), 'required'],
-            'jam' => ['nullable'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
-            'keterangan' => ['string', 'nullable', 'max:500']
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('images', 'public');
+            $validated['foto'] = $request->file('foto')->store('images/kegiatan', 'public');
             Storage::disk('public')->delete($kegiatan->foto);
         }
 
         $kegiatan->update($validated);
-
 
         return back()->withSuccess('Kegiatan berhasil diupdate');
     }
@@ -126,9 +112,10 @@ class KegiatanController extends Controller
 
     public function uploadFoto(Request $request, $id)
     {
+        abort_unless($request->ajax(), 404);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images', 'public');
+            $path = $request->file('image')->store('images/kegiatan', 'public');
             FotoKegiatan::create([
                 'kegiatan_id' => $id,
                 'path' => $path
@@ -140,10 +127,12 @@ class KegiatanController extends Controller
         return response()->json(['message' => 'Invalid request'], 422);
     }
 
-    public function deleteFoto(Request $request, $id)
+    public function deleteFoto(Request $request)
     {
+        abort_unless($request->ajax(), 404);
+
         $request->validate([
-            'foto_id' => ['required', 'numeric', 'exists:foto_kegiatan,id']
+            'foto_id' => 'required|numeric|exists:foto_kegiatan,id'
         ]);
 
         $foto = FotoKegiatan::findOrFail($request->foto_id);

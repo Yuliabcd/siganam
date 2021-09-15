@@ -40,7 +40,7 @@
               <table class="table table-bordered">
                 <tr>
                   <th colspan="2">Hari / Tanggal</th>
-                  <td colspan="6">{{ \Carbon\Carbon::parse($laporan->tanggal)->isoFormat('dddd, DD MMMM YYYY') }}</td>
+                  <td colspan="6">{{ $laporan->tanggal->isoFormat('dddd, DD MMMM YYYY') }}</td>
                 </tr>
                 <tr>
                   <th colspan="2">Tempat / Rumah</th>

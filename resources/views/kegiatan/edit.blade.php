@@ -40,14 +40,15 @@
                 <div class="form-group col-md-6">
                   <label for="tanggal">Tanggal <code>*</code></label>
                   <input type="date" class="form-control" id="tanggal" name="tanggal"
-                    value="{{ $kegiatan->tanggal }}">
+                    value="{{ $kegiatan->tanggal->format('Y-m-d') }}">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="jam">Jam</label>
-                  <input type="time" class="form-control" id="jam" name="jam" value="{{ $kegiatan->jam }}">
+                  <input type="time" class="form-control" id="jam" name="jam"
+                    value="{{ $kegiatan->jam->format('H:i') }}">
                 </div>
                 <div class="form-group col-md-6">
                   <label for="tempat">Tempat <code>*</code></label>

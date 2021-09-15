@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Pengurus\PengurusStoreRequest;
+use App\Http\Requests\Pengurus\PengurusUpdateRequest;
 use App\Models\Pengurus;
 use App\Models\Posisi;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PengurusController extends Controller
@@ -16,7 +17,7 @@ class PengurusController extends Controller
      */
     public function index()
     {
-        return view('pengurus.index')->with(['pengurus' => Pengurus::orderBy('posisi_id')->paginate(15)]);
+        return view('pengurus.index')->with(['pengurus' => Pengurus::orderBy('posisi_id')->paginate(10)]);
     }
 
     /**
@@ -35,21 +36,12 @@ class PengurusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PengurusStoreRequest $request)
     {
-        $validated = $this->validate($request, [
-            'posisi_id' => ['numeric', 'required', 'exists:posisi,id'],
-            'nama' => ['string', 'required', 'max:50'],
-            'nama_panggilan' => ['string', 'required', 'max:50'],
-            'jenis_kelamin' => ['in:l,p', 'required'],
-            'email' => ['email', 'nullable', 'max:50'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
-            'no_hp' => ['string', 'nullable', 'max:15', 'starts_with:08,62,+62'],
-            'alamat' => ['string', 'nullable', 'max:500'],
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('images', 'public');
+            $validated['foto'] = $request->file('foto')->store('images/pengurus', 'public');
         }
 
         Pengurus::create($validated);
@@ -87,21 +79,12 @@ class PengurusController extends Controller
      * @param  \App\Models\Pengurus  $pengurus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pengurus $pengurus)
+    public function update(PengurusUpdateRequest $request, Pengurus $pengurus)
     {
-        $validated = $this->validate($request, [
-            'posisi_id' => ['numeric', 'required', 'exists:posisi,id'],
-            'nama' => ['string', 'required', 'max:50'],
-            'nama_panggilan' => ['string', 'required', 'max:50'],
-            'jenis_kelamin' => ['in:l,p', 'required'],
-            'email' => ['email', 'nullable', 'max:50'],
-            'foto' => ['file', 'mimes:jpg,jpeg,png', 'nullable', 'max:1024'],
-            'no_hp' => ['string', 'nullable', 'max:15', 'starts_with:08,62,+62'],
-            'alamat' => ['string', 'nullable', 'max:500'],
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('images', 'public');
+            $validated['foto'] = $request->file('foto')->store('images/pengurus', 'public');
             Storage::disk('public')->delete($pengurus->foto);
         }
 
